@@ -2,6 +2,7 @@
 
 import React, { Component } from 'react';
 import Sound from 'react-sound';
+import { sample } from 'underscore';
 import { SOUND_FILES } from './sounds';
 import ListenButton from './components/ListenButton';
 import StatusBar from './components/StatusBar';
@@ -30,13 +31,26 @@ const styles = {
 
 export default class MainPage extends Component {
   state: {
-    intensity: Number,
+    subject: String,
     sound: Object,
+    intensity: Number,
+    trial: Number,
+    currentTime: Number,
+    soundState: String,
+    displayText: String,
   };
 
   state = {
-    intensity: 2,
-    sound: SOUND_FILES[2][0],
+    subject:
+      new Date().valueOf().toString(36) +
+      Math.random()
+        .toString(36)
+        .substr(2),
+    sound: sample(SOUND_FILES[5]),
+    intensity: 5,
+    trial: 1,
+    currentTime: Date.now(),
+
     soundState: Sound.status.STOPPED,
     displayText: 'DEFAULT',
   };
@@ -50,30 +64,46 @@ export default class MainPage extends Component {
   };
   */
 
-  // @todo: randomly select from the array
-  // @todo: SAVE the result
-  handleResponse = (correct) => {
-    if (correct) {
-      const intensityChange =
-        this.state.intensity < 1
-          ? this.state.intensity
-          : this.state.intensity - 1;
+  handleResponse = (correct: Boolean) => {
+    this._saveResponse(correct);
 
-      this.setState({
-        intensity: intensityChange,
-        sound: SOUND_FILES[intensityChange][0],
-      });
-    } else {
-      const intensityChange =
-        this.state.intensity > 8
-          ? this.state.intensity
-          : this.state.intensity + 2;
+    const newIntensity = correct
+      ? this.state.intensity < 1
+        ? this.state.intensity
+        : this.state.intensity - 1
+      : this.state.intensity > 8
+        ? this.state.intensity
+        : this.state.intensity + 2;
 
-      this.setState({
-        intensity: intensityChange,
-        sound: SOUND_FILES[intensityChange][0],
+    this._toNextTrial(newIntensity);
+  };
+
+  _toNextTrial = (newIntensity: Number) => {
+    this.setState({
+      sound: sample(SOUND_FILES[newIntensity]),
+      intensity: newIntensity,
+      trial: this.state.trial + 1,
+      currentTime: Date.now(),
+    });
+  };
+
+  _saveResponse = (isCorrect) => {
+    fetch('/api/response', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: this.state.subject,
+        sound: this.state.sound.file,
+        intensity: this.state.intensity,
+        trial: this.state.trial,
+        rt: Date.now() - this.state.currentTime,
+        isCorrect,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        !res.success ? console.log("didn't work") : console.log('did work');
       });
-    }
   };
 
   heardIt = () => {
@@ -114,7 +144,14 @@ export default class MainPage extends Component {
   };
 
   render = () => {
-    console.log('STATE: ', this.state);
+    if (this.state.trial === 40) {
+      // end!!!!!!!
+    }
+
+    if (this.state.intensity === 10) {
+      // @todo What happens at the highest intensity?
+      // do something?
+    }
 
     return (
       <div style={styles.main}>

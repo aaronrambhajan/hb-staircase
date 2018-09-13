@@ -18,5 +18,6 @@
     "eslint-plugin-prettier": "^2.6.2",
     "flow-bin": "^0.80.0",
     "prettier": "^1.14.2"
-  }
+  },
+  "proxy": "http://localhost:3001"
 }
