@@ -8,24 +8,29 @@ import ListenButton from './components/ListenButton';
 import StatusBar from './components/StatusBar';
 
 const styles = {
-  main: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+  main: {},
   displayText: {
-    color: 'red',
+    fontSize: '300%',
+    fontWeight: 'bold',
+    border: 'solid black',
+    borderWidth: 2,
+    borderRadius: 15,
+    backgroundColor: 'lavender',
+    padding: 10,
+    margin: 10,
+    color: 'black',
   },
   buttons: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-evenly',
+    margin: 10,
   },
   statusBar: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+    margin: 10,
+    // display: 'flex',
+    // flexDirection: 'column',
+    // justifyContent: 'flex-end',
   },
 };
 
@@ -51,7 +56,7 @@ export default class MainPage extends Component {
     trial: 1,
     currentTime: Date.now(),
 
-    soundState: Sound.status.STOPPED,
+    soundState: Sound.status.PAUSED,
     displayText: 'DEFAULT',
   };
 
