@@ -3,12 +3,23 @@
 import React, { Component } from 'react';
 import Sound from 'react-sound';
 import { sample } from 'underscore';
-import { SOUND_FILES } from './sounds';
+import { TEST_SOUNDS } from './sounds';
 import ListenButton from './components/ListenButton';
 import StatusBar from './components/StatusBar';
+import Instructions from './pages/Instructions';
+import Finished from './pages/Finished';
+import ConsentForm from './pages/ConsentForm';
+import { colors } from './colors';
+
+const defaultIntensity = 5;
 
 const styles = {
-  main: {},
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   displayText: {
     fontSize: '300%',
     fontWeight: 'bold',
@@ -28,9 +39,9 @@ const styles = {
   },
   statusBar: {
     margin: 10,
-    // display: 'flex',
-    // flexDirection: 'column',
-    // justifyContent: 'flex-end',
+  },
+  consentButton: {
+    marginTop: 10,
   },
 };
 
@@ -43,6 +54,7 @@ export default class MainPage extends Component {
     currentTime: Number,
     soundState: String,
     displayText: String,
+    experiment: String, // 'consent', instructions', 'experiment', 'finished'
   };
 
   state = {
@@ -51,23 +63,15 @@ export default class MainPage extends Component {
       Math.random()
         .toString(36)
         .substr(2),
-    sound: sample(SOUND_FILES[5]),
-    intensity: 5,
+    sound: sample(TEST_SOUNDS[defaultIntensity]),
+    intensity: defaultIntensity,
     trial: 1,
     currentTime: Date.now(),
 
     soundState: Sound.status.PAUSED,
     displayText: 'DEFAULT',
+    experiment: 'consent',
   };
-
-  /*
-  shouldComponentUpdate = (nextProps, nextState) => {
-    return (
-      nextState.intensity !== this.state.intensity ||
-      nextState.soundState !== this.state.soundState
-    );
-  };
-  */
 
   handleResponse = (correct: Boolean) => {
     this._saveResponse(correct);
@@ -85,14 +89,14 @@ export default class MainPage extends Component {
 
   _toNextTrial = (newIntensity: Number) => {
     this.setState({
-      sound: sample(SOUND_FILES[newIntensity]),
+      sound: sample(TEST_SOUNDS[newIntensity]),
       intensity: newIntensity,
       trial: this.state.trial + 1,
       currentTime: Date.now(),
     });
   };
 
-  _saveResponse = (isCorrect) => {
+  _saveResponse = (isCorrect: Boolean) => {
     fetch('/api/response', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -105,7 +109,9 @@ export default class MainPage extends Component {
         isCorrect,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        res.json();
+      })
       .then((res) => {
         !res.success ? console.log("didn't work") : console.log('did work');
       });
@@ -142,21 +148,49 @@ export default class MainPage extends Component {
     }
   };
 
-  updateText = (text) => {
+  updateText = (text: String) => {
     this.setState({
       displayText: text,
     });
   };
 
+  updateExperimentState = (state: String) => {
+    this.setState({
+      experiment: state,
+    });
+  };
+
   render = () => {
-    if (this.state.trial === 40) {
-      // end!!!!!!!
+    if (this.state.experiment === 'consent') {
+      return (
+        <div style={styles.main}>
+          <ConsentForm
+            onConfirmation={() => {
+              this.updateExperimentState('instructions');
+            }}
+          />
+        </div>
+      );
     }
 
-    if (this.state.intensity === 10) {
-      // @todo What happens at the highest intensity?
-      // do something?
+    if (this.state.experiment === 'instructions') {
+      return (
+        <div style={styles.main}>
+          <Instructions
+            onConfirmation={() => {
+              this.updateExperimentState('experiment');
+            }}
+          />
+        </div>
+      );
     }
+
+    if (this.state.trial === 30) {
+      return <Finished />;
+    }
+
+    // if () {} // listening
+    // if () {} // just responded
 
     return (
       <div style={styles.main}>
@@ -199,8 +233,8 @@ export default class MainPage extends Component {
               displayText="Heard it"
               textX="115"
               textY="269"
-              fill="#57A700"
-              size="150"
+              fill={colors.YES_BUTTON}
+              size={150}
             />
           </div>
           <div onClick={this.notHeardIt}>
@@ -208,8 +242,8 @@ export default class MainPage extends Component {
               displayText="Didn't"
               textX="148.529297"
               textY="229"
-              fill="#FF0000"
-              size="150"
+              fill={colors.NO_BUTTON}
+              size={150}
               isTwoLines={{ displayText: 'hear it' }}
             />
           </div>
@@ -218,7 +252,7 @@ export default class MainPage extends Component {
         <div style={styles.statusBar}>
           <StatusBar
             size={100}
-            statusFill="#FF0000"
+            statusFill={colors.NO_BUTTON}
             intensity={this.state.intensity}
           />
         </div>
