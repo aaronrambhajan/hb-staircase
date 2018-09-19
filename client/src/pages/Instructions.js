@@ -30,7 +30,7 @@ export default class Instructions extends React.Component {
           Normal heartbeats differ from heartbeats with S3 in one key way. What
           follows is a diagram that visualizes their difference, as you can see
           here. <br /> <br />
-          With S3: <br /> <br />
+          Without S3: <br /> <br />
           <div style={{ textAlign: 'center' }}>
             <code>
               lub..........dub.................lub..........dub.................lub..........dub..................lub..........dub...
@@ -38,7 +38,7 @@ export default class Instructions extends React.Component {
           </div>
           <br />
           <br />
-          Without S3: <br /> <br />
+          With S3: <br /> <br />
           <div style={{ textAlign: 'center' }}>
             <code>
               lub.........dub..dub.................lub...........dub..dub......................lub...............dub..dub............
