@@ -6,13 +6,13 @@ import mongoose from 'mongoose';
 import session from 'express-session';
 import connectMongo from 'connect-mongo';
 import { config } from 'dotenv';
-import Response from './models/response';
+import Response from './api/models/response';
 
 const app = express();
 const router = express.Router();
 
 // Set environment
-config({ path: '../.env' });
+config({ path: './.env' });
 
 // Configure DB, session data
 mongoose.connect(process.env.DB_URI);
@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 app.use(logger('dev'));
 
 // serve static files from React App
-app.use(express.static(path.join(__dirname, 'client/build')));
+app.use(express.static(path.join(__dirname, '/client/build')));
 
 app.post('/api/response', (req, res) => {
   const rpns = new Response();
