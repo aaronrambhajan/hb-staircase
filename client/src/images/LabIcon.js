@@ -1,7 +1,7 @@
 import React from 'react';
 import { colors } from '../colors';
 
-export default class Instructions extends React.Component {
+export default class LabIcon extends React.Component {
   props: {
     size: Number,
   };

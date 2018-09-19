@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Button, Container, Row, Col, Jumbotron } from 'reactstrap';
 import { colors } from './colors';
 import { status } from './status';
 import Starting from './pages/Starting';
@@ -9,8 +8,6 @@ import Consent from './pages/Consent';
 import Instructions from './pages/Instructions';
 import Experiment from './pages/Experiment';
 import Finished from './pages/Finished';
-
-import LabIcon from './images/LabIcon';
 
 const styles = {
   main: {
