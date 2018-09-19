@@ -10,6 +10,8 @@ import Instructions from './pages/Instructions';
 import Experiment from './pages/Experiment';
 import Finished from './pages/Finished';
 
+import LabIcon from './images/LabIcon';
+
 const styles = {
   main: {
     display: 'flex',
@@ -19,7 +21,7 @@ const styles = {
   },
 };
 
-export default class MainPage extends Component {
+export default class Main extends Component {
   state: {
     status: String,
   };
@@ -73,11 +75,13 @@ export default class MainPage extends Component {
 
     if (this.state.status === status.EXPERIMENT) {
       return (
-        <Experiment
-          onComplete={() => {
-            this.updateStatus(status.FINISHED);
-          }}
-        />
+        <div style={styles.main}>
+          <Experiment
+            onComplete={() => {
+              this.updateStatus(status.FINISHED);
+            }}
+          />
+        </div>
       );
     }
 
