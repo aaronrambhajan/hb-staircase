@@ -44,6 +44,10 @@ app.use(logger('dev'));
 // serve static files from React App
 app.use(express.static(path.join(__dirname, '/client/build')));
 
+app.get('/api', (req, res) => {
+  res.send({ message: 'Base API Route' });
+});
+
 app.post('/api/response', (req, res) => {
   const rpns = new Response();
 
@@ -60,6 +64,12 @@ app.post('/api/response', (req, res) => {
     return err
       ? res.json({ success: false, error: err })
       : res.json({ success: true });
+  });
+});
+
+app.get('/api/get_response', (req, res) => {
+  Response.find({}, function(err, data) {
+    res.send(data);
   });
 });
 
