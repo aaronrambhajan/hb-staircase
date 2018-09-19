@@ -11,6 +11,7 @@ export default class ListenButton extends React.Component {
     isTwoLines: Boolean,
     isDisabled: Boolean,
   };
+
   render = () => {
     return (
       <svg
