@@ -4,10 +4,11 @@ import React, { Component } from 'react';
 import { Button, Container, Row, Col, Jumbotron } from 'reactstrap';
 import { colors } from './colors';
 import { status } from './status';
-import Instructions from './pages/Instructions';
-import Finished from './pages/Finished';
+import Starting from './pages/Starting';
 import Consent from './pages/Consent';
+import Instructions from './pages/Instructions';
 import Experiment from './pages/Experiment';
+import Finished from './pages/Finished';
 
 const styles = {
   main: {
@@ -24,7 +25,7 @@ export default class MainPage extends Component {
   };
 
   state = {
-    status: status.CONSENT,
+    status: status.STARTING,
   };
 
   updateStatus = (state: String) => {
@@ -34,6 +35,18 @@ export default class MainPage extends Component {
   };
 
   render = () => {
+    if (this.state.status === status.STARTING) {
+      return (
+        <div style={styles.main}>
+          <Starting
+            onConfirmation={() => {
+              this.updateStatus(status.CONSENT);
+            }}
+          />
+        </div>
+      );
+    }
+
     if (this.state.status === status.CONSENT) {
       return (
         <div style={styles.main}>
