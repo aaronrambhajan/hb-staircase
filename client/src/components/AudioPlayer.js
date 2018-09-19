@@ -14,9 +14,9 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     border: 'solid black',
-    borderWidth: 3,
+    borderWidth: 1,
     borderRadius: 10,
-    padding: 5,
+    padding: 10,
   },
   buttons: {
     display: 'flex',

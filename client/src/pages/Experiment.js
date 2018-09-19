@@ -27,7 +27,7 @@ const getSound = (intensity: Number, previous: Object) => {
   );
 };
 
-const defaultIntensity = 1;
+const defaultIntensity = 5;
 
 const styles = {
   audioPlayer: {
@@ -74,7 +74,7 @@ export default class Experiment extends Component {
   };
 
   handleResponse = (correct: Boolean) => {
-    // this._saveResponse(correct);
+    this._saveResponse(correct);
 
     const newIntensity = correct
       ? this.state.intensity <= 1
