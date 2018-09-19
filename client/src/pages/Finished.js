@@ -1,5 +1,6 @@
 import React from 'react';
-import LabLogo from '../components/LabLogo';
+import { Container } from 'reactstrap';
+import Header from '../components/Header';
 
 const styles = {
   main: {
@@ -13,17 +14,18 @@ const styles = {
     marginTop: 20,
     marginLeft: 60,
     marginRight: 60,
+    textAlign: 'center',
   },
 };
 export default class Finished extends React.Component {
-  props: render = () => {
+  render = () => {
     return (
-      <div style={styles.main}>
-        <LabLogo size={66.667} />
+      <Container>
+        <Header />
         <div style={styles.instructionText}>
           You're finished now, congratulations! Please get the experimenter.
         </div>
-      </div>
+      </Container>
     );
   };
 }

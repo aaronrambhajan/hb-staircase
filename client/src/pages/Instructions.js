@@ -1,8 +1,7 @@
 import React from 'react';
+import { Button, Container } from 'reactstrap';
 import { colors } from '../colors';
-import LabLogo from '../components/LabLogo';
-import OKButton from '../components/OKButton';
-import { Grid, Row, Col } from 'react-bootstrap';
+import Header from '../components/Header';
 
 const styles = {
   main: {
@@ -10,19 +9,6 @@ const styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  instructionText: {
-    marginTop: 20,
-    marginLeft: 20,
-    marginRight: 20,
-  },
-  leftCol: {
-    backgroundColor: colors.LAB_SECONDARY,
-    height: '100vh',
-  },
-  rightCol: {
-    backgroundColor: colors.LAB_SECONDARY,
-    height: '100vh',
   },
 };
 export default class Instructions extends React.Component {
@@ -32,40 +18,49 @@ export default class Instructions extends React.Component {
 
   render = () => {
     return (
-      <div style={styles.main}>
-        <Grid>
-          <Row style={styles.rows}>
-            <Col lg={2} style={styles.leftCol}>
-              1 of 3
-            </Col>
-            <Col lg={8} style={styles.centerCol}>
-              <LabLogo size={66.667} />
-              <div style={styles.instructionText}>
-                Hello, fellow participant! Welcome to our heartbeat experiment.
-                For this experiment, we're going to ask you to listen to some
-                samples of heartbeat sounds. We want you to tell us whether you
-                can hear S3, an abnormality in heartbeats that is linked to a
-                number of diseases. Hello, fellow participant! Welcome to our
-                heartbeat experiment. For this experiment, we're going to ask
-                you to listen to some samples of heartbeat sounds. We want you
-                to tell us whether you can hear S3, an abnormality in heartbeats
-                that is linked to a number of diseases. Hello, fellow
-                participant! Welcome to our heartbeat experiment. For this
-                experiment, we're going to ask you to listen to some samples of
-                heartbeat sounds. We want you to tell us whether you can hear
-                S3, an abnormality in heartbeats that is linked to a number of
-                diseases.
-              </div>
-              <div onClick={this.props.onConfirmation}>
-                <OKButton displayText="Continue" size={50} />
-              </div>
-            </Col>
-            <Col lg={2} style={styles.rightCol}>
-              3 of 3
-            </Col>
-          </Row>
-        </Grid>
-      </div>
+      <Container>
+        <Header />
+        <h1 className="display-3">The S3 Heartbeat</h1>
+        <p className="lead">
+          In this experiment, you will be listening to heartbeat sounds! Your
+          task will be to listen for the "third" heart sound in the heartbeat.
+        </p>
+        <hr className="my-2" />
+        <p style={{ fontSize: '16px' }}>
+          Normal heartbeats differ from heartbeats with S3 in one key way. What
+          follows is a diagram that visualizes their difference, as you can see
+          here. <br /> <br />
+          With S3: <br /> <br />
+          <div style={{ textAlign: 'center' }}>
+            <code>
+              lub..........dub.................lub..........dub.................lub..........dub..................lub..........dub...
+            </code>
+          </div>
+          <br />
+          <br />
+          Without S3: <br /> <br />
+          <div style={{ textAlign: 'center' }}>
+            <code>
+              lub.........dub..dub.................lub...........dub..dub......................lub...............dub..dub............
+            </code>
+          </div>
+          <br />
+          <br />
+          Accordingly, we want you to indicate whether you hear the sound of S3
+          in the heartbeats you hear. If you do, you are to indicate that you
+          heard S3–otherwise indicate that you didn't. You have 10 seconds for
+          each sample followed by a short break. This experiment must be done on
+          headphones. If you have any questions, please don't hesitate to
+          contact the experimenter. Thank you for your participation, and good
+          luck!
+          <br />
+        </p>
+        <p className="lead">
+          <Button color="primary" size="lg" onClick={this.props.onConfirmation}>
+            Continue
+          </Button>
+        </p>
+      </Container>
     );
   };
 }
