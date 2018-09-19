@@ -31,13 +31,12 @@ const formatAudioTime = (time: Number) => {
   return rounded < 10 ? '00:0' + rounded : '00:' + rounded;
 };
 
-// @todo: Disable answering BEFORE THE AUDIO PLAYS
-
 export default class AudioPlayer extends React.Component {
   props: {
     file: String,
     hasS3: Boolean,
     onPress: Function,
+    onPlay: Function, // Enables buttons
   };
   state: {
     displayText: String,
@@ -55,6 +54,7 @@ export default class AudioPlayer extends React.Component {
   shouldComponentUpdate = (nextProps, nextState) => {
     // iff we're moving onto the next sound
     if (nextProps.file !== this.props.file) {
+      // we want to reset the state of the sound
       nextState.status = Sound.status.PAUSED;
     }
 
@@ -88,32 +88,15 @@ export default class AudioPlayer extends React.Component {
       case Sound.status.PLAYING:
         return <PauseButton size={24} onPress={this.handleButtonPress} />;
       default:
-        return <Ellipsis size={8} onPress={this.handleButtonPress} />;
+        return <Ellipsis size={8} />;
     }
   };
 
   render = () => {
-    // return (
-    //   <Container style={styles.main}>
-    //     <Row>
-    //       <Col style={styles.buttons} xs={3}>
-    //         {this.renderPlayerButton()}
-    //       </Col>
-    //       <Col style={{ textAlign: 'center' }} xs={6}>
-    //         {this.state.displayText}
-    //       </Col>
-    //       <Col xs={3}>
-    //         {this.state.position}
-    //         {' / '}
-    //         {this.state.duration}
-    //       </Col>
-    //     </Row>
-    //   </Container>
-    // );
     return (
       <div style={styles.main}>
         {/* Play/Pause Buttons...  */}
-        {this.renderPlayerButton()}
+        <div onClick={this.props.onPlay}>{this.renderPlayerButton()}</div>
 
         <div>{this.state.displayText}</div>
 

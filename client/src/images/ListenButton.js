@@ -1,4 +1,5 @@
 import React from 'react';
+import { colors } from '../colors';
 
 export default class ListenButton extends React.Component {
   props: {
@@ -7,7 +8,8 @@ export default class ListenButton extends React.Component {
     textY: String,
     fill: String,
     size: String,
-    isTwoLines: boolean,
+    isTwoLines: Boolean,
+    isDisabled: Boolean,
   };
   render = () => {
     return (
@@ -27,7 +29,14 @@ export default class ListenButton extends React.Component {
               fillOpacity="0.24"
               r="250"
             />
-            <circle cx="250.5" cy="250.5" fill={this.props.fill} r="210.5" />
+            <circle
+              cx="250.5"
+              cy="250.5"
+              fill={
+                this.props.isDisabled ? colors.DISABLED_BUTTON : this.props.fill
+              }
+              r="210.5"
+            />
             <text
               fill="#FFFFFF"
               fontFamily="Helvetica-Bold, Helvetica"

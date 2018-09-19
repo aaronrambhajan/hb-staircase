@@ -54,6 +54,7 @@ export default class Experiment extends Component {
     trial: Number,
     currentTime: Number,
     displayText: String,
+    disableButtons: Boolean,
   };
 
   state = {
@@ -66,6 +67,9 @@ export default class Experiment extends Component {
     intensity: defaultIntensity,
     trial: 1,
     currentTime: Date.now(),
+
+    // Buttons are disabled until the user has pressed play!
+    disableButtons: true,
     displayText: (
       <div>
         Do you hear <b>S3</b>?
@@ -93,6 +97,7 @@ export default class Experiment extends Component {
       intensity: newIntensity,
       trial: this.state.trial + 1,
       currentTime: Date.now(),
+      disableButtons: true,
     });
   };
 
@@ -122,16 +127,29 @@ export default class Experiment extends Component {
       });
   };
 
+  disableButtons = () => {
+    if (this.state.disableButtons) {
+      this.setState({
+        disableButtons: false,
+      });
+    }
+  };
+
   heardIt = () => {
-    this.handleResponse(this.state.sound.hasS3);
+    if (!this.state.disableButtons) {
+      this.handleResponse(this.state.sound.hasS3);
+    }
   };
 
   notHeardIt = () => {
-    this.handleResponse(!this.state.sound.hasS3);
+    if (!this.state.disableButtons) {
+      this.handleResponse(!this.state.sound.hasS3);
+    }
   };
 
   render = () => {
     // @todo: Disable the buttons if the sound hasn't started...
+    // If the sound hasn't been played yet?
 
     if (this.state.trial === 30) {
       this.props.onComplete();
@@ -147,22 +165,17 @@ export default class Experiment extends Component {
             <h1 style={{ textAlign: 'center' }} className="display-3">
               {this.state.displayText}
             </h1>
-            {/* <p style={{ textAlign: 'center' }} className="lead">
-              If you don't, just remember that you're looking to differentiate
-              these: <br />
-              <code style={{ fontSize: 10 }}>
-                lub..........dub.................lub..........dub.................lub..........dub..................lub..........dub...
-              </code>
-              <br />
-              <code style={{ fontSize: 10 }}>
-                lub.........dub..dub.................lub...........dub..dub......................lub...............dub..dub............
-              </code>
-              <br />
-            </p> */}
+            <p style={{ textAlign: 'center' }} className="lead">
+              Start the experiment by pressing play.
+            </p>
+
             <Row style={styles.audioPlayer}>
               <Col xs="2" />
               <Col xs="8">
-                <AudioPlayer file={this.state.sound.file} />
+                <AudioPlayer
+                  onPlay={this.disableButtons}
+                  file={this.state.sound.file}
+                />
               </Col>
               <Col xs="2" />
             </Row>
@@ -175,6 +188,7 @@ export default class Experiment extends Component {
                     textY="269"
                     fill={colors.YES_BUTTON}
                     size={150}
+                    isDisabled={this.state.disableButtons}
                   />
                 </div>
                 <div onClick={this.notHeardIt}>
@@ -185,6 +199,7 @@ export default class Experiment extends Component {
                     fill={colors.NO_BUTTON}
                     size={150}
                     isTwoLines={{ displayText: 'hear it' }}
+                    isDisabled={this.state.disableButtons}
                   />
                 </div>
               </Col>
