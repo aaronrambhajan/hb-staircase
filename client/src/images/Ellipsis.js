@@ -3,7 +3,6 @@ import React from 'react';
 export default class Ellipsis extends React.Component {
   props: {
     size: Number,
-    onPress: Function,
   };
 
   render = () => {
