@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run start:server",
+    "start:dev": "concurrently \"npm run start:server\" \"npm run start:client\"",
     "start:server": "nodemon server.js --exec babel-node --presets es2015,stage-0",
+    "start:client": "cd client && npm start",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "repository": {
