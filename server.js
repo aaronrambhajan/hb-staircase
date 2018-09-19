@@ -34,7 +34,7 @@ app.use(
 );
 
 // set our port to either a predetermined port number if you have set it up, or 3001
-const API_PORT = process.env.API_PORT || 5000;
+const API_PORT = process.env.PORT || 5000;
 
 // now we should configure the API to use bodyParser and look for JSON data in the request body
 app.use(bodyParser.urlencoded({ extended: false }));
