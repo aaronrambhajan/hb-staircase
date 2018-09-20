@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Row } from 'reactstrap';
 import LabLogo from '../images/LabLogo';
 
 const styles = {

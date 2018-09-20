@@ -1,7 +1,6 @@
 // @flow
 
 import React, { Component } from 'react';
-import { colors } from './colors';
 import { status } from './status';
 import Starting from './pages/Starting';
 import Consent from './pages/Consent';
