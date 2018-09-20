@@ -3,14 +3,6 @@ import { Button, Container } from 'reactstrap';
 import { colors } from '../colors';
 import Header from '../components/Header';
 
-const styles = {
-  main: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-};
 export default class Instructions extends React.Component {
   props: {
     onConfirmation: Function,
@@ -20,17 +12,26 @@ export default class Instructions extends React.Component {
     return (
       <Container>
         <Header />
-        <h1 className="display-3">The S3 Heartbeat</h1>
+        <h1 style={{ fontWeight: 500 }} className="display-3">
+          The{' '}
+          <span style={{ color: colors.LAB_PRIMARY, fontWeight: 'bold' }}>
+            S3
+          </span>{' '}
+          Heartbeat{' '}
+          <span role="img" aria-label="Heartbeat">
+            💖
+          </span>
+        </h1>
         <p className="lead">
-          In this experiment, you will be listening to heartbeat sounds! Your
-          task will be to listen for the "third" heart sound in the heartbeat.
+          In this experiment, you'll be listening to heartbeat
+          sounds–specifically, you'll be listening for the "third" sound.
         </p>
         <hr className="my-2" />
         <p style={{ fontSize: '16px' }}>
-          Normal heartbeats differ from heartbeats with S3 in one key way. What
-          follows is a diagram that visualizes their difference, as you can see
-          here. <br /> <br />
-          Without S3: <br /> <br />
+          Normal heartbeats differ from heartbeats with S3 in one key way.
+          Below, you'll see a diagram that visualizes the difference. <br />{' '}
+          <br />
+          <i>Without</i> S3: <br /> <br />
           <div style={{ textAlign: 'center' }}>
             <code>
               lub..........dub.................lub..........dub.................lub..........dub..................lub..........dub...
@@ -38,7 +39,7 @@ export default class Instructions extends React.Component {
           </div>
           <br />
           <br />
-          With S3: <br /> <br />
+          <i>With</i> S3: <br /> <br />
           <div style={{ textAlign: 'center' }}>
             <code>
               lub.........dub..dub.................lub...........dub..dub......................lub...............dub..dub............
@@ -46,18 +47,25 @@ export default class Instructions extends React.Component {
           </div>
           <br />
           <br />
-          Accordingly, we want you to indicate whether you hear the sound of S3
-          in the heartbeats you hear. If you do, you are to indicate that you
-          heard S3–otherwise indicate that you didn't. You have 10 seconds for
-          each sample followed by a short break. This experiment must be done on
-          headphones. If you have any questions, please don't hesitate to
-          contact the experimenter. Thank you for your participation, and good
-          luck!
+          We want you to{' '}
+          <b>
+            {' '}
+            indicate whether you hear the sound of S3 in the samples we present
+            to you
+          </b>
+          . If you do, press the button that says <b>Heard it</b>. Otherwise,
+          press the button that says <b>I didn't hear it</b>. You have 10
+          seconds for each sample. This experiment must be done on headphones.
+          If you have any questions, please don't hesitate to contact the
+          experimenter. Thank you for your participation, and good luck!
           <br />
         </p>
         <p className="lead">
           <Button color="primary" size="lg" onClick={this.props.onConfirmation}>
-            Continue
+            <span role="img" aria-label="Thumbs-up">
+              👍
+            </span>{' '}
+            I understand
           </Button>
         </p>
       </Container>
