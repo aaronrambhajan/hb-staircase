@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Container, Row, Col } from 'reactstrap';
+import { Button, Container } from 'reactstrap';
 import Header from '../components/Header';
 
 const styles = {
@@ -29,12 +29,12 @@ const styles = {
   // .consent div#revise
   consentdivReviseClass: {
     float: 'right',
-    fontSize: '16px',
+    fontSize: '12px',
     fontFamily: 'Helvetica',
   },
   // .consent p
   consentpClass: {
-    fontSize: '20px',
+    fontSize: '16px',
     fontFamily: 'Helvetica',
     textAlign: 'left',
     lineHeight: '1.4em',
@@ -43,21 +43,21 @@ const styles = {
   consenth1Class: {
     textAlign: 'center',
     fontFamily: 'Helvetica',
-    fontSize: '20px',
+    fontSize: '16px',
     textDecoration: 'underline',
     fontWeight: 'bold',
     lineHeight: '1.4em',
   },
   // .consent h2
   consenth2Class: {
-    fontSize: '20px',
+    fontSize: '16px',
     fontFamily: 'Helvetica',
     lineHeight: '1.4em',
     textAlign: 'left',
   },
   // .consent ol
   consentolClass: {
-    fontSize: '20px',
+    fontSize: '16px',
     fontFamily: 'Helvetica',
     lineHeight: '1.4em',
     textAlign: 'left',
@@ -225,11 +225,12 @@ export default class Consent extends React.Component {
           <div style={styles.consentdivReviseClass}>
             Revised: December 9, 2016
           </div>
-          <div onClick={this.props.onConfirmation}>
-            <Button size="lg" color="primary">
-              I agree
-            </Button>
-          </div>
+          <Button size="lg" color="primary" onClick={this.props.onConfirmation}>
+            <span role="img" aria-label="Thumbs-up">
+              👍
+            </span>{' '}
+            I agree
+          </Button>
         </div>
       </Container>
     );
