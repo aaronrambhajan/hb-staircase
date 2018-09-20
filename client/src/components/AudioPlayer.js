@@ -2,28 +2,49 @@
 
 import React from 'react';
 import Sound from 'react-sound';
-import { Container, Row, Col } from 'reactstrap';
+import { colors, changeOpacity } from '../colors';
 import PlayButton from '../images/PlayButton';
 import PauseButton from '../images/PauseButton';
 import Ellipsis from '../images/Ellipsis';
 
 const styles = {
   main: {
+    flex: 1,
     display: 'flex',
-    flexDirection: 'row',
+    flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    border: 'solid black',
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 10,
+    paddingTop: 10,
+    color: colors.LAB_SECONDARY,
+    border: `solid ${changeOpacity(colors.DISABLED_BUTTON, 0.1)}`,
+    borderWidth: 2,
+    borderRadius: 20,
+    backgroundColor: changeOpacity(colors.DISABLED_BUTTON, 0.25),
+    maxWidth: 250,
   },
   buttons: {
+    height: 45,
+    width: 67.5,
+    maxHeight: 100,
+    maxWidth: 120,
+    overflow: 'scroll',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  timer: {},
+  displayText: {
+    fontStyle: 'italic',
+    textAlign: 'center',
+    marginTop: 4,
+    marginBottom: 4,
+    color: changeOpacity(colors.LAB_SECONDARY, 0.5),
+    fontSize: '12px',
+  },
+  timer: {
+    fontSize: '16px',
+    textAlign: 'center',
+    color: 'black',
+  },
 };
 
 const formatAudioTime = (time: Number) => {
@@ -84,11 +105,11 @@ export default class AudioPlayer extends React.Component {
   renderPlayerButton = () => {
     switch (this.state.status) {
       case Sound.status.PAUSED:
-        return <PlayButton size={24} onPress={this.handleButtonPress} />;
+        return <PlayButton size={45} onPress={this.handleButtonPress} />;
       case Sound.status.PLAYING:
-        return <PauseButton size={24} onPress={this.handleButtonPress} />;
+        return <PauseButton size={45} onPress={this.handleButtonPress} />;
       default:
-        return <Ellipsis size={8} />;
+        return <Ellipsis size={15} />;
     }
   };
 
@@ -96,10 +117,9 @@ export default class AudioPlayer extends React.Component {
     return (
       <div style={styles.main}>
         {/* Play/Pause Buttons...  */}
-        <div onClick={this.props.onPlay}>{this.renderPlayerButton()}</div>
-
-        <div>{this.state.displayText}</div>
-
+        <div style={styles.buttons} onClick={this.props.onPlay}>
+          {this.renderPlayerButton()}
+        </div>
         {/* Sound file..  */}
         <Sound
           url={this.props.file}
@@ -153,11 +173,13 @@ export default class AudioPlayer extends React.Component {
             });
           }}
         />
-
         {/* Time position! */}
-        {this.state.position}
-        {' / '}
-        {this.state.duration}
+        <p style={styles.displayText}>{this.state.displayText}</p>
+        <p style={styles.timer} className="lead">
+          {this.state.position}
+          {' / '}
+          {this.state.duration}
+        </p>
       </div>
     );
   };

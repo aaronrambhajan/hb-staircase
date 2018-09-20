@@ -15,6 +15,7 @@ export default class ListenButton extends React.Component {
   render = () => {
     return (
       <svg
+        style={{ marginRight: 15, marginLeft: 15 }}
         height={this.props.size}
         width={this.props.size}
         version="1.1"

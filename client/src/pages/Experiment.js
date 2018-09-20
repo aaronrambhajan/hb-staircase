@@ -1,14 +1,13 @@
 // @flow
 
 import React, { Component } from 'react';
-import { Button, Container, Row, Col, Jumbotron } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import { sample } from 'underscore';
 import { SOUNDS } from '../sounds';
-import { colors } from '../colors';
+import { colors, changeOpacity } from '../colors';
 import Header from '../components/Header';
 import AudioPlayer from '../components/AudioPlayer';
 import ListenButton from '../images/ListenButton';
-import StatusBar from '../images/StatusBar';
 
 const getSound = (intensity: Number, previous: Object) => {
   // Returns a random sample that _isn't_ the previous one.
@@ -30,14 +29,34 @@ const getSound = (intensity: Number, previous: Object) => {
 const defaultIntensity = 5;
 
 const styles = {
+  main: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   audioPlayer: {
-    marginTop: 20,
-    marginBottom: 20,
+    display: 'flex',
+    flexDirection: 'row',
+  },
+  audio: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  titleText: {
+    textAlign: 'center',
+    marginTop: 30,
+    marginBottom: 50,
+  },
+  subtext: {
+    color: changeOpacity(colors.STANDARD, 0.5),
+    fontSize: '14px',
   },
   buttonContainer: {
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
     alignItems: 'center',
   },
 };
@@ -72,7 +91,11 @@ export default class Experiment extends Component {
     disableButtons: true,
     displayText: (
       <div>
-        Do you hear <b>S3</b>?
+        Do you hear{' '}
+        <span style={{ color: colors.LAB_PRIMARY, fontWeight: 'bold' }}>
+          S3
+        </span>
+        ?
       </div>
     ),
   };
@@ -114,14 +137,10 @@ export default class Experiment extends Component {
         isCorrect,
       }),
     })
-      .then((res) => {
-        res.json();
-      })
-      .then((res) => {
-        !res.success
-          ? console.log("didn't work", res)
-          : console.log('did work', res);
-      })
+      .then((response) => response.json())
+      .then((res) =>
+        console.log('Successfully written to DB: ', JSON.stringify(res))
+      )
       .catch((error) => {
         console.error('Error: ', error);
       });
@@ -151,7 +170,7 @@ export default class Experiment extends Component {
     // @todo: Disable the buttons if the sound hasn't started...
     // If the sound hasn't been played yet?
 
-    if (this.state.trial === 30) {
+    if (this.state.trial === 31) {
       this.props.onComplete();
       return <div> Moving on... </div>;
     }
@@ -159,19 +178,12 @@ export default class Experiment extends Component {
     return (
       <Container>
         <Header />
-        <Row>
+        <Row style={styles.main}>
           <Col xs="2" />
           <Col xs="8">
-            <h1 style={{ textAlign: 'center' }} className="display-3">
-              {this.state.displayText}
-            </h1>
-            <p style={{ textAlign: 'center' }} className="lead">
-              Start the experiment by pressing play.
-            </p>
-
             <Row style={styles.audioPlayer}>
               <Col xs="2" />
-              <Col xs="8">
+              <Col style={styles.audio} xs="8">
                 <AudioPlayer
                   onPlay={this.disableButtons}
                   file={this.state.sound.file}
@@ -179,6 +191,15 @@ export default class Experiment extends Component {
               </Col>
               <Col xs="2" />
             </Row>
+            <div style={styles.titleText}>
+              <h1 className="display-2">{this.state.displayText}</h1>
+              <p style={styles.subtext} className="lead">
+                {this.state.trial === 1
+                  ? 'You can start by pressing play.'
+                  : null}
+              </p>
+            </div>
+
             <Row>
               <Col style={styles.buttonContainer} xs="12">
                 <div onClick={this.heardIt}>
@@ -187,7 +208,7 @@ export default class Experiment extends Component {
                     textX="115"
                     textY="269"
                     fill={colors.YES_BUTTON}
-                    size={150}
+                    size={140}
                     isDisabled={this.state.disableButtons}
                   />
                 </div>
@@ -197,7 +218,7 @@ export default class Experiment extends Component {
                     textX="148.529297"
                     textY="229"
                     fill={colors.NO_BUTTON}
-                    size={150}
+                    size={140}
                     isTwoLines={{ displayText: 'hear it' }}
                     isDisabled={this.state.disableButtons}
                   />
