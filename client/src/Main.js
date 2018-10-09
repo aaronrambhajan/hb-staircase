@@ -5,6 +5,7 @@ import { status } from './status';
 import Starting from './pages/Starting';
 import Consent from './pages/Consent';
 import Instructions from './pages/Instructions';
+import Calibration from './pages/Calibration';
 import Experiment from './pages/Experiment';
 import Finished from './pages/Finished';
 
@@ -61,6 +62,18 @@ export default class Main extends Component {
       return (
         <div style={styles.main}>
           <Instructions
+            onConfirmation={() => {
+              this.updateStatus(status.CALIBRATION);
+            }}
+          />
+        </div>
+      );
+    }
+
+    if (this.state.status === status.CALIBRATION) {
+      return (
+        <div style={styles.main}>
+          <Calibration
             onConfirmation={() => {
               this.updateStatus(status.EXPERIMENT);
             }}

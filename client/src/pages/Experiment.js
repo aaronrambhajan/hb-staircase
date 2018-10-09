@@ -78,6 +78,7 @@ export default class Experiment extends Component {
 
   state = {
     subject:
+      'EDITION2' +
       new Date().valueOf().toString(36) +
       Math.random()
         .toString(36)
@@ -187,6 +188,7 @@ export default class Experiment extends Component {
                 <AudioPlayer
                   onPlay={this.disableButtons}
                   file={this.state.sound.file}
+                  isLooping={false}
                 />
               </Col>
               <Col xs="2" />

@@ -58,6 +58,7 @@ export default class AudioPlayer extends React.Component {
     hasS3: Boolean,
     onPress: Function,
     onPlay: Function, // Enables buttons
+    isLooping: Boolean,
   };
   state: {
     displayText: String,
@@ -125,6 +126,7 @@ export default class AudioPlayer extends React.Component {
           url={this.props.file}
           playStatus={this.state.status}
           autoLoad={true}
+          loop={this.props.isLooping}
           onLoading={(soundObj) => {
             this.setState({
               duration: formatAudioTime(soundObj.duration),
